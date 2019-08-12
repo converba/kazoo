@@ -85,6 +85,7 @@
         ,<<"Privacy-Hide-Name">>
         ,<<"Privacy-Hide-Number">>
         ,<<"Continue-After">>
+        ,<<"No-Session-Progress">>
         ]).
 -define(BRIDGE_REQ_VALUES, [{<<"Event-Category">>, <<"call">>}
                            ,{<<"Event-Name">>, <<"command">>}

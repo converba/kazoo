@@ -50,6 +50,7 @@
                                     ,<<"Transfer-Media">>
                                     ,<<"User-Agent">>
                                     ,<<"Destination-Number">>
+                                    ,<<"No-Session-Progress">>
                                     ]).
 -define(ROUTE_REQ_VALUES, [{<<"Event-Category">>, ?EVENT_CATEGORY}
                           ,{<<"Event-Name">>, ?ROUTE_REQ_EVENT_NAME}

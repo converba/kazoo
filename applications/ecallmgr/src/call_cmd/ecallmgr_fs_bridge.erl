@@ -84,13 +84,15 @@ unbridge(UUID, JObj) ->
 %%------------------------------------------------------------------------------
 -spec handle_ringback(kz_term:proplist(), atom(), kz_term:ne_binary(), channel(), kz_json:object()) -> kz_term:proplist().
 handle_ringback(DP, Node, UUID, _Channel, JObj) ->
-    case kz_json:get_first_defined([<<"Ringback">>
-                                   ,[<<"Custom-Channel-Vars">>, <<"Ringback">>]
-                                   ]
-                                  ,JObj
-                                  )
+    case {kz_json:get_first_defined([<<"Ringback">>
+                                    ,[<<"Custom-Channel-Vars">>, <<"Ringback">>]
+                                    ]
+                                   ,JObj
+                                   )
+         ,kz_json:get_value(<<"No-Session-Progress">>, JObj)}
     of
-        'undefined' ->
+        {_, 'true'} -> 'ok';
+        {'undefined', _} ->
             {'ok', Default} = ecallmgr_util:get_setting(<<"default_ringback">>),
             Props = [{<<"ringback">>, Default}],
             Exports = ecallmgr_util:process_fs_kv(Node, UUID, Props, 'export'),
@@ -98,7 +100,7 @@ handle_ringback(DP, Node, UUID, _Channel, JObj) ->
             [{"application", <<"kz_export_encoded ", Args/binary>>}
              |DP
             ];
-        Media ->
+        {Media, _} ->
             Stream = ecallmgr_util:media_path(Media, 'extant', UUID, JObj),
             lager:debug("bridge has custom ringback: ~s", [Stream]),
             Props = [{<<"ringback">>, Stream}],

@@ -179,6 +179,9 @@
             ],
             "type": "string"
         },
+        "No-Session-Progress": {
+            "type": "boolean"
+        },
         "Outbound-Callee-ID-Name": {
             "type": "string"
         },
